@@ -1,24 +1,29 @@
 <template>
   <div class="date-selector">
     <label for="date-picker">Select Date:</label>
-    <input id="date-picker" type="date" v-model="selectedDate" @change="updateDate" />
+    <input id="date-picker" type="date" :value="modelValue" @input="updateDate" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'DateSelector',
-  emits: ['date-change'],
-  setup(_, { emit }) {
-    const selectedDate = ref<string>(new Date().toISOString().split('T')[0]); // Текущая дата
-
-    const updateDate = () => {
-      emit('date-change', selectedDate.value);
+  props: {
+    modelValue: {
+      type: String,
+      required: true,
+    },
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const updateDate = (event: Event) => {
+      const input = event.target as HTMLInputElement;
+      emit('update:modelValue', input.value);
     };
 
-    return { selectedDate, updateDate };
+    return { updateDate };
   },
 });
 </script>

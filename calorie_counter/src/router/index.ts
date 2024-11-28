@@ -10,13 +10,16 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/day/:date',
+      name: 'day',
+      component: HomeView, // Используем ту же страницу, но с параметром даты
+      props: true, // Передаём параметр `date` как пропс
+    },
+    /*{
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
-    },
+    },*/
   ],
 })
 

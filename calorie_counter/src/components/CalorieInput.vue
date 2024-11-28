@@ -16,14 +16,19 @@ import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'CalorieInput',
-  emits: ['set-calories'],
-  setup(_, { emit }) {
-    const calories = ref<number | null>(null);
+  emits: ['update:modelValue'],
+  props: {
+    modelValue: {
+      type: Number,
+      required: true,
+    },
+  },
+  setup(props, { emit }) {
+    const calories = ref(props.modelValue);
 
     const emitCalories = () => {
       if (calories.value !== null && calories.value > 0) {
-        emit('set-calories', calories.value);
-        calories.value = null;
+        emit('update:modelValue', calories.value);
       }
     };
 
@@ -32,4 +37,8 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style scoped>
+.calorie-input {
+  margin-bottom: 1rem;
+}
+</style>

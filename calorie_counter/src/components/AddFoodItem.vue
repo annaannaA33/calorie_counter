@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import foodData from '../assets/foodData.json' // Ваш JSON с продуктами
+import foodData from '../assets/foodData.json' // JSON с продуктами
 
 export default defineComponent({
   name: 'AddFoodItem',
