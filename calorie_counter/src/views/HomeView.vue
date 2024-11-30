@@ -14,9 +14,17 @@
     <div class="remaining-calories">
       <p>Calories Exceeded: {{ remainingCalories }} cal</p>
     </div>
-
     <CalorieInput v-model="dailyCalories" v-if="isEditingCalories" />
-    <AddFoodItem @add-food="addFoodItem" />
+
+    <!-- add item-->
+    <!-- Button to open modal -->
+    <button @click="openModal">
+      <img src="../components/icons/plus-item-to-list.svg" alt="add item" />
+    </button>
+
+    <!-- Modal for adding products -->
+    <AddProductModal :isOpen="isModalOpen" @close="closeModal" @add-food="addFoodItem" />
+
     <FoodList :items="currentDay.items" :dailyCalories="dailyCalories" />
   </div>
 </template>
@@ -30,10 +38,12 @@ import AddFoodItem from '@/components/AddFoodItem.vue'
 import FoodList from '@/components/FoodList.vue'
 import StorageService from '@/components/services/storageService'
 import type { DayData } from '@/components/types/CalorieData'
+import AddProductModal from '@/components/AddProductModal.vue'
 
 export default defineComponent({
   name: 'HomeView',
-  components: { DateSelector, CalorieInput, AddFoodItem, FoodList },
+  //need refactor
+  components: { DateSelector, CalorieInput, AddFoodItem, FoodList, AddProductModal },
   setup() {
     const route = useRoute()
     //const router = useRouter()
@@ -44,7 +54,9 @@ export default defineComponent({
     const dailyCalories = ref(StorageService.getDailyCalories())
     const currentDay = ref<DayData>(StorageService.getDayData(selectedDate.value))
     const isEditingCalories = ref(false)
+    const isModalOpen = ref(false)
 
+    // Monitor the date changes from the route
     watch(
       () => route.params.date,
       (newDate) => {
@@ -54,13 +66,18 @@ export default defineComponent({
         }
       },
     )
+    // Monitor changes in the selected date
+    watch(selectedDate, (newDate) => {
+      if (newDate) {
+        currentDay.value = StorageService.getDayData(newDate)
+      }
+    })
 
-    
     const editDailyCalories = () => {
       isEditingCalories.value = true
     }
 
-    // Сохраняем дневную норму при её изменении
+    // We maintain the daily norm when it changes
     watch(dailyCalories, (newCalories) => {
       if (!isEditingCalories.value) return
       if (newCalories && newCalories > 0) {
@@ -85,12 +102,19 @@ export default defineComponent({
       return dailyCalories.value - currentDay.value.totalCalories
     })
 
+    // Opening and closing a modal window
+    const openModal = () => (isModalOpen.value = true)
+    const closeModal = () => (isModalOpen.value = false)
+
     return {
       selectedDate,
       dailyCalories,
       currentDay,
       isEditingCalories,
       editDailyCalories,
+      isModalOpen,
+      openModal,
+      closeModal,
       addFoodItem,
       formattedDate,
       remainingCalories, // Возвращаем вычисляемое свойство
@@ -109,18 +133,20 @@ export default defineComponent({
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.daily-calories, .remaining-calories {
+.daily-calories,
+.remaining-calories {
   margin-bottom: 1.5rem;
   font-size: 1.2rem;
 }
 
-.daily-calories p, .remaining-calories p {
+.daily-calories p,
+.remaining-calories p {
   font-weight: bold;
 }
 
 .daily-calories button {
   padding: 0.5rem 1rem;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 4px;
@@ -134,7 +160,7 @@ export default defineComponent({
 
 .remaining-calories p {
   font-size: 1.5rem;
-  color: #FF5722; /* Red for remaining calories */
+  color: #000000;
 }
 
 .remaining-calories {
@@ -154,7 +180,7 @@ export default defineComponent({
 .remaining-calories .progress-bar div {
   height: 100%;
   width: 100%;
-  background-color: #FF5722;
+  background-color: #ff5722;
   transition: width 0.3s ease;
 }
 
@@ -184,7 +210,10 @@ export default defineComponent({
 }
 
 .food-item .food-calories {
-  color: #4CAF50;
+  color: #4caf50;
+}
+h1 {
+  font-size: 1.5rem;
 }
 
 @media (max-width: 768px) {

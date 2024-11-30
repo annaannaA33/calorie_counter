@@ -6,6 +6,10 @@
     <!-- Контент загружается через роутинг -->
     <router-view />
   </div>
+  <footer class="footer">
+  <p>&copy; 2024 Calorie Tracker. All rights reserved.</p>
+  <p>Designed with ❤️ for better health.</p>
+</footer>
 </template>
 
 <script lang="ts">
@@ -24,7 +28,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.app {
+.app, footer {
   padding: 1rem;
 }
 </style>

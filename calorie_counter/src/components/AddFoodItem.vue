@@ -66,7 +66,7 @@ export default defineComponent({
           const calories = Math.round((caloriesPer100g * grams.value) / 100)
 
           emit('add-food', {
-            name: productKey, // Используем оригинальное название из базы
+            name: productKey,
             grams: grams.value,
             calories: calories,
           })
