@@ -6,13 +6,13 @@
 
     <!-- Daily calorie intake -->
     <div class="daily-calories">
-      <p>Daily Calorie Goal: {{ dailyCalories }} cal</p>
+      <p>Calorie Limit:: {{ dailyCalories }} cal</p>
       <button @click="editDailyCalories">Edit</button>
     </div>
 
     <!-- Remaining calories -->
     <div class="remaining-calories">
-      <p>Remaining Calories: {{ remainingCalories }} cal</p>
+      <p>Calories Exceeded: {{ remainingCalories }} cal</p>
     </div>
 
     <CalorieInput v-model="dailyCalories" v-if="isEditingCalories" />
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import DateSelector from '@/components/DateSelector.vue'
 import CalorieInput from '@/components/CalorieInput.vue'
 import AddFoodItem from '@/components/AddFoodItem.vue'
@@ -36,14 +36,14 @@ export default defineComponent({
   components: { DateSelector, CalorieInput, AddFoodItem, FoodList },
   setup() {
     const route = useRoute()
-    const router = useRouter()
+    //const router = useRouter()
 
     const selectedDate = ref(
       (route.params.date as string) || new Date().toISOString().split('T')[0],
     )
     const dailyCalories = ref(StorageService.getDailyCalories())
     const currentDay = ref<DayData>(StorageService.getDayData(selectedDate.value))
-    const isEditingCalories = ref(false) // Управление режимом редактирования
+    const isEditingCalories = ref(false)
 
     watch(
       () => route.params.date,
@@ -55,7 +55,7 @@ export default defineComponent({
       },
     )
 
-    // Режим редактирования дневной нормы калорий
+    
     const editDailyCalories = () => {
       isEditingCalories.value = true
     }
@@ -101,15 +101,108 @@ export default defineComponent({
 
 <style scoped>
 .home-view {
-  margin: 1rem 0;
+  margin: 2rem auto;
+  max-width: 1200px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.daily-calories {
-  margin-bottom: 1rem;
+.daily-calories, .remaining-calories {
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.daily-calories p, .remaining-calories p {
+  font-weight: bold;
+}
+
+.daily-calories button {
+  padding: 0.5rem 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.daily-calories button:hover {
+  background-color: #45a049;
+}
+
+.remaining-calories p {
+  font-size: 1.5rem;
+  color: #FF5722; /* Red for remaining calories */
 }
 
 .remaining-calories {
-  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.remaining-calories .progress-bar {
+  width: 70%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.remaining-calories .progress-bar div {
+  height: 100%;
+  width: 100%;
+  background-color: #FF5722;
+  transition: width 0.3s ease;
+}
+
+.remaining-calories .progress-bar-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.food-item p {
+  margin: 0;
+}
+
+.food-item .food-name {
   font-weight: bold;
+}
+
+.food-item .food-calories {
+  color: #4CAF50;
+}
+
+@media (max-width: 768px) {
+  .home-view {
+    padding: 1rem;
+  }
+
+  .remaining-calories p {
+    font-size: 1.2rem;
+  }
+
+  .food-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .food-item .food-calories {
+    margin-top: 0.5rem;
+  }
 }
 </style>

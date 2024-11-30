@@ -34,7 +34,7 @@ export default defineComponent({
     const showSuggestions = ref(false)
     const filteredSuggestions = ref<string[]>([])
 
-    // Метод фильтрации для автозаполнения
+    
     const filterSuggestions = () => {
       const searchKey = foodName.value.toLowerCase().trim()
       if (searchKey.length > 0) {
@@ -46,7 +46,7 @@ export default defineComponent({
       }
     }
 
-    // Выбор подсказки из выпадающего списка
+    
     const selectSuggestion = (suggestion: string) => {
       foodName.value = suggestion
       showSuggestions.value = false
@@ -97,8 +97,50 @@ export default defineComponent({
 
 <style scoped>
 .add-food-item {
-  margin-bottom: 1rem;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+input,
+button {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus,
+button:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input::placeholder {
+  color: #888;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1e7121;
 }
 
 .suggestions-list {
@@ -111,15 +153,22 @@ export default defineComponent({
   width: 100%;
   max-height: 150px;
   overflow-y: auto;
-  z-index: 1000;
+  border-radius: 4px;
+  z-index: 10;
 }
 
 .suggestions-list li {
-  padding: 0.5rem;
+  padding: 0.8rem;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .suggestions-list li:hover {
   background: #f0f0f0;
+}
+
+.add-food-item input,
+.add-food-item button {
+  transition: border-color 0.2s, background-color 0.2s;
 }
 </style>

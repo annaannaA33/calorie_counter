@@ -5,7 +5,7 @@
         {{ item.name }} - {{ item.grams }}g ({{ item.calories }} cal)
       </li>
     </ul>
-    <p>Total: {{ totalCalories }} / {{ dailyCalories }} cal</p>
+    <h2>Total: {{ totalCalories }} / {{ dailyCalories }} cal</h2>
   </div>
 </template>
 
