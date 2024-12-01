@@ -117,7 +117,7 @@ export default defineComponent({
       closeModal,
       addFoodItem,
       formattedDate,
-      remainingCalories, // Возвращаем вычисляемое свойство
+      remainingCalories,
     }
   },
 })
