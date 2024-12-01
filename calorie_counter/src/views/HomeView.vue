@@ -6,7 +6,7 @@
 
     <!-- Daily calorie intake -->
     <div class="daily-calories">
-      <p>Calorie Limit:: {{ dailyCalories }} cal</p>
+      <p>Calorie Limit: {{ dailyCalories }} cal</p>
       <button @click="editDailyCalories">Edit</button>
     </div>
 
