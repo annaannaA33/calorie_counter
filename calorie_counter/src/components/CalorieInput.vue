@@ -7,7 +7,7 @@
       v-model="calories"
       placeholder="e.g., 2000"
     />
-    <button @click="emitCalories">Set</button>
+    <button class="set-calorie-button" @click="emitCalories">Set</button>
   </div>
 </template>
 
@@ -40,5 +40,25 @@ export default defineComponent({
 <style scoped>
 .calorie-input {
   margin-bottom: 1rem;
+}
+.set-calorie-button {
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: white !important;
+  border: none;
+  border-radius: 8%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.set-calorie-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
 }
 </style>

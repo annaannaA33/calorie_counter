@@ -3,7 +3,7 @@
     <div class="modal-content">
       <h2>Add Product</h2>
       <AddFoodItem @add-food="handleAddFood" />
-      <button @click="closeModal">Close</button>
+      <button class="close-modal-button" @click="closeModal">Close</button>
     </div>
   </div>
 </template>
@@ -56,5 +56,25 @@ export default defineComponent({
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 500px;
   width: 100%;
+}
+.close-modal-button {
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: white !important;
+  border: none;
+  border-radius: 8%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
 }
 </style>

@@ -17,8 +17,8 @@
 
     <!-- add item-->
     <!-- Button to open modal -->
-    <button @click="openModal" class="open-modal">
-      <img src="../components/icons/plus-item-to-list.svg" alt="add item" />
+    <button class="open-modal-button" @click="openModal">
+      +
     </button>
 
     <!-- Modal for adding products -->
@@ -35,7 +35,7 @@ import DateSelector from '@/components/DateSelector.vue'
 import CalorieInput from '@/components/CalorieInput.vue'
 import FoodList from '@/components/FoodList.vue'
 import StorageService from '@/components/services/storageService'
-//import type { DayData } from '@/components/types/CalorieData'
+import type { DayData } from '@/components/types/CalorieData'
 import AddProductModal from '@/components/AddProductModal.vue'
 
 export default defineComponent({
@@ -123,6 +123,8 @@ export default defineComponent({
 
 <style scoped>
 .home-view {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   margin: 0 auto;
   width: 100%;
@@ -131,6 +133,7 @@ export default defineComponent({
   background-color: #f8fff9;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  justify-content: center;
 }
 
 .daily-calories,
@@ -196,6 +199,29 @@ h1 {
   font-size: 1.5rem;
 }
 
+.open-modal-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background-color: #4caf50;
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  
+}
+
+.open-modal-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
   .home-view {
     padding: 1rem;
@@ -214,32 +240,7 @@ h1 {
   .food-item .food-calories {
     margin-top: 0.5rem;
   }
-}
-
-.open-modal {
-  padding: 1rem 2rem;
-  background-color: #4caf50;
-  color: white !important;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.open-modal:hover {
-  background-color: #45a049;
-  transform: scale(1.05);
-}
-
-@media (max-width: 768px) {
-  button .open-modal {
+  .open-modal-button {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
   }
