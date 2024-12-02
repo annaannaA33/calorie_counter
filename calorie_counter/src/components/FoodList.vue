@@ -51,8 +51,33 @@ export default defineComponent({
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
+.food-list item.calories{
+  display: flex;
+  justify-content: space-between;
+}
 h2 {
   margin: 0.5rem 0;
 }
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.food-item p {
+  margin: 0;
+}
+
+.food-item .food-name {
+  font-weight: bold;
+}
+
+.food-item .food-calories {
+  color: #4caf50;
+}
+
 </style>

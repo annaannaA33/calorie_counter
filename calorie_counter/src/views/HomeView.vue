@@ -2,7 +2,6 @@
   <div class="home-view">
     <!-- Date Selector component -->
     <DateSelector v-model="selectedDate" />
-    <h1>Today</h1>
     <h1>{{ formattedDate }}</h1>
     <!-- Daily calorie intake -->
     <div class="daily-calories">
@@ -36,7 +35,7 @@ import DateSelector from '@/components/DateSelector.vue'
 import CalorieInput from '@/components/CalorieInput.vue'
 import FoodList from '@/components/FoodList.vue'
 import StorageService from '@/components/services/storageService'
-import type { DayData } from '@/components/types/CalorieData'
+//import type { DayData } from '@/components/types/CalorieData'
 import AddProductModal from '@/components/AddProductModal.vue'
 
 export default defineComponent({
@@ -192,27 +191,7 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-.food-item {
-  display: flex;
-  justify-content: space-between;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-.food-item p {
-  margin: 0;
-}
-
-.food-item .food-name {
-  font-weight: bold;
-}
-
-.food-item .food-calories {
-  color: #4caf50;
-}
 h1 {
   font-size: 1.5rem;
 }

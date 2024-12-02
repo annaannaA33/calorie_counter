@@ -97,7 +97,7 @@ button.today {
 }
 @media (max-width: 768px) {
   .date-navigator {
-    gap: 0.5rem; /* Уменьшаем расстояние между кнопками */
+    gap: 0.5rem;
   }
 
   button {

@@ -34,7 +34,6 @@ export default defineComponent({
     const showSuggestions = ref(false)
     const filteredSuggestions = ref<string[]>([])
 
-    
     const filterSuggestions = () => {
       const searchKey = foodName.value.toLowerCase().trim()
       if (searchKey.length > 0) {
