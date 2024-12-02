@@ -5,11 +5,11 @@
     <DateSelector @date-change="changeDate" />
     <!-- Контент загружается через роутинг -->
     <router-view />
+    <footer class="footer">
+      <p>&copy; 2024 Calorie Tracker. All rights reserved.</p>
+      <p>Designed with ❤️ for better health.</p>
+    </footer>
   </div>
-  <footer class="footer">
-  <p>&copy; 2024 Calorie Tracker. All rights reserved.</p>
-  <p>Designed with ❤️ for better health.</p>
-</footer>
 </template>
 
 <script lang="ts">
@@ -28,7 +28,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.app, footer {
-  padding: 1rem;
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: auto;
+  margin-top: auto;
+  flex-direction: column;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
 }
 </style>

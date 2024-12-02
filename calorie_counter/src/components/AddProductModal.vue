@@ -27,7 +27,7 @@ export default defineComponent({
 
     const handleAddFood = (foodItem: { name: string; grams: number; calories: number }) => {
       emit('add-food', foodItem)
-      closeModal() // Закрываем модальное окно после добавления
+      closeModal()
     }
 
     return { closeModal, handleAddFood }

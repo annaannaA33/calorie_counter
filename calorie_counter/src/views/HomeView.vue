@@ -2,8 +2,8 @@
   <div class="home-view">
     <!-- Date Selector component -->
     <DateSelector v-model="selectedDate" />
-    <h1>Calorie Tracker for {{ formattedDate }}</h1>
-
+    <h1>Today</h1>
+    <h1>{{ formattedDate }}</h1>
     <!-- Daily calorie intake -->
     <div class="daily-calories">
       <p>Calorie Limit: {{ dailyCalories }} cal</p>
@@ -18,7 +18,7 @@
 
     <!-- add item-->
     <!-- Button to open modal -->
-    <button @click="openModal">
+    <button @click="openModal" class="open-modal">
       <img src="../components/icons/plus-item-to-list.svg" alt="add item" />
     </button>
 
@@ -34,7 +34,6 @@ import { defineComponent, ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import DateSelector from '@/components/DateSelector.vue'
 import CalorieInput from '@/components/CalorieInput.vue'
-import AddFoodItem from '@/components/AddFoodItem.vue'
 import FoodList from '@/components/FoodList.vue'
 import StorageService from '@/components/services/storageService'
 import type { DayData } from '@/components/types/CalorieData'
@@ -43,7 +42,7 @@ import AddProductModal from '@/components/AddProductModal.vue'
 export default defineComponent({
   name: 'HomeView',
   //need refactor
-  components: { DateSelector, CalorieInput, AddFoodItem, FoodList, AddProductModal },
+  components: { DateSelector, CalorieInput, FoodList, AddProductModal },
   setup() {
     const route = useRoute()
     //const router = useRouter()
@@ -97,7 +96,7 @@ export default defineComponent({
       return date.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })
     })
 
-    // Вычисление остатка калорий
+    // Calculation of remaining calories
     const remainingCalories = computed(() => {
       return dailyCalories.value - currentDay.value.totalCalories
     })
@@ -125,10 +124,12 @@ export default defineComponent({
 
 <style scoped>
 .home-view {
-  margin: 2rem auto;
+  flex-grow: 1;
+  margin: 0 auto;
+  width: 100%;
   max-width: 1200px;
   padding: 1rem;
-  background-color: #f9f9f9;
+  background-color: #f8fff9;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -219,6 +220,7 @@ h1 {
 @media (max-width: 768px) {
   .home-view {
     padding: 1rem;
+    width: auto;
   }
 
   .remaining-calories p {
@@ -232,6 +234,35 @@ h1 {
 
   .food-item .food-calories {
     margin-top: 0.5rem;
+  }
+}
+
+.open-modal {
+  padding: 1rem 2rem;
+  background-color: #4caf50;
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.open-modal:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  button .open-modal {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
   }
 }
 </style>

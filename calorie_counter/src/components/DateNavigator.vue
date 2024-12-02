@@ -70,9 +70,9 @@ export default defineComponent({
 <style scoped>
 .date-navigator {
   display: flex;
-  gap: 0.5rem;
+  gap: 1%;
   margin-bottom: 1rem;
-}
+  }
 
 button {
   padding: 0.5rem 1rem;
@@ -94,5 +94,16 @@ button.today {
   background: #4caf50;
   color: white;
   font-weight: bold;
+}
+@media (max-width: 768px) {
+  .date-navigator {
+    gap: 0.5rem; /* Уменьшаем расстояние между кнопками */
+  }
+
+  button {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.6rem; 
+    max-width: 80%; 
+  }
 }
 </style>
