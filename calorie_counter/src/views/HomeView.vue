@@ -6,12 +6,11 @@
     <!-- Daily calorie intake -->
     <div class="daily-calories">
       <p>Calorie Limit: {{ dailyCalories }} cal</p>
-      <button @click="editDailyCalories">Edit</button>
-      <CalorieInput v-model="dailyCalories" v-if="isEditingCalories" />
+    </div>
 
-      <p>or</p>
-      <button @click="editCalculator">calculate</button>
-      <CalculateCalories v-if="editCalculator" v-model="dailyCalories" />
+    <!--Set daily calorie norm-->
+    <div class="set-daily-norm">
+      <button class="open-modal-button" @click="openDailyNormModal">Set Daily Calories</button>
     </div>
 
     <!-- Remaining calories -->
@@ -19,30 +18,39 @@
       <p>Calories Exceeded: {{ remainingCalories }} cal</p>
     </div>
 
-    <!-- add item-->
-    <!-- Button to open modal -->
-    <button class="open-modal-button" @click="openModal">+</button>
+    <!-- Add item-->
+    <button class="open-modal-button" @click="openAddProductModal">+</button>
 
     <!-- Modal for adding products -->
-    <AddProductModal :isOpen="isModalOpen" @close="closeModal" @add-food="addFoodItem" />
     <FoodList :items="currentDay.items" :dailyCalories="dailyCalories" />
   </div>
+
+  <!-- Modals -->
+  <AddProductModal
+    :isOpen="isAddProductModalOpen"
+    @close="closeAddProductModal"
+    @add-food="addFoodItem"
+  />
+  <DailyNormModal
+    :isOpen="isDailyNormModalOpen"
+    @close="closeDailyNormModal"
+    @set-daily-norm="updateDailyCalories"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import DateSelector from '@/components/DateSelector.vue'
-import CalorieInput from '@/components/CalorieInput.vue'
 import FoodList from '@/components/FoodList.vue'
 import StorageService from '@/services/storageService'
 import type { DayData } from '@/types/CalorieData'
 import AddProductModal from '@/components/AddProductModal.vue'
-import CalculateCalories from '@/components/calculateCalories/CalculateCalories.vue'
+import DailyNormModal from '@/components/ DailyNorm/DailyNormModal.vue'
 export default defineComponent({
   name: 'HomeView',
 
-  components: { DateSelector, CalorieInput, FoodList, AddProductModal, CalculateCalories },
+  components: { DateSelector, FoodList, AddProductModal, DailyNormModal },
   setup() {
     const route = useRoute()
     const selectedDate = ref(
@@ -50,9 +58,8 @@ export default defineComponent({
     )
     const dailyCalories = ref(StorageService.getDailyCalories() || 2000)
     const currentDay = ref<DayData>(StorageService.getDayData(selectedDate.value))
-    const isEditingCalories = ref(false)
-    const isCalculatorVisible = ref(false)
-    const isModalOpen = ref(false)
+    const isAddProductModalOpen = ref(false)
+    const isDailyNormModalOpen = ref(false)
 
     // Monitor the date changes from the route
     watch(
@@ -70,18 +77,23 @@ export default defineComponent({
         currentDay.value = StorageService.getDayData(newDate)
       }
     })
-
-    const editDailyCalories = () => {
-      isEditingCalories.value = true
-    }
-
-    watch(dailyCalories, (newCalories: number) => {
-      if (!isEditingCalories.value) return
-      if (newCalories && newCalories > 0) {
-        StorageService.setDailyCalories(newCalories)
-        isEditingCalories.value = false
-      }
+    // Computed properties
+    const formattedDate = computed(() => {
+      const date = new Date(selectedDate.value)
+      return date.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })
     })
+
+    // Modal open/close functions
+    const openAddProductModal = () => (isAddProductModalOpen.value = true)
+    const closeAddProductModal = () => (isAddProductModalOpen.value = false)
+    const openDailyNormModal = () => (isDailyNormModalOpen.value = true)
+    const closeDailyNormModal = () => (isDailyNormModalOpen.value = false)
+
+    // Update daily calories
+    const updateDailyCalories = (newCalories: number) => {
+      dailyCalories.value = newCalories
+      StorageService.setDailyCalories(newCalories) // Save to storage
+    }
 
     const addFoodItem = (foodItem: { name: string; grams: number; calories: number }) => {
       currentDay.value.items.push(foodItem)
@@ -89,37 +101,25 @@ export default defineComponent({
       StorageService.saveDayData(currentDay.value)
     }
 
-    const formattedDate = computed(() => {
-      const date = new Date(selectedDate.value)
-      return date.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })
-    })
-
     // Calculation of remaining calories
     const remainingCalories = computed(() => {
       return dailyCalories.value - currentDay.value.totalCalories
     })
 
-    // Opening and closing a modal window
-    const openModal = () => (isModalOpen.value = true)
-    const closeModal = () => (isModalOpen.value = false)
-    const editCalculator = () => {
-      isCalculatorVisible.value = !false
-    }
-
     return {
       selectedDate,
       dailyCalories,
       currentDay,
-      isEditingCalories,
-      editDailyCalories,
-      isModalOpen,
-      openModal,
-      closeModal,
+      isAddProductModalOpen,
+      openAddProductModal,
+      closeAddProductModal,
+      isDailyNormModalOpen,
+      openDailyNormModal,
+      closeDailyNormModal,
+      updateDailyCalories,
       addFoodItem,
       formattedDate,
       remainingCalories,
-      isCalculatorVisible,
-      editCalculator,
     }
   },
 })
