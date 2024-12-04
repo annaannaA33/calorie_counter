@@ -7,23 +7,24 @@
     <div class="daily-calories">
       <p>Calorie Limit: {{ dailyCalories }} cal</p>
       <button @click="editDailyCalories">Edit</button>
+      <CalorieInput v-model="dailyCalories" v-if="isEditingCalories" />
+
+      <p>or</p>
+      <button @click="editCalculator">calculate</button>
+      <CalculateCalories v-if="editCalculator" v-model="dailyCalories" />
     </div>
 
     <!-- Remaining calories -->
     <div class="remaining-calories">
       <p>Calories Exceeded: {{ remainingCalories }} cal</p>
     </div>
-    <CalorieInput v-model="dailyCalories" v-if="isEditingCalories" />
 
     <!-- add item-->
     <!-- Button to open modal -->
-    <button class="open-modal-button" @click="openModal">
-      +
-    </button>
+    <button class="open-modal-button" @click="openModal">+</button>
 
     <!-- Modal for adding products -->
     <AddProductModal :isOpen="isModalOpen" @close="closeModal" @add-food="addFoodItem" />
-
     <FoodList :items="currentDay.items" :dailyCalories="dailyCalories" />
   </div>
 </template>
@@ -34,24 +35,23 @@ import { useRoute } from 'vue-router'
 import DateSelector from '@/components/DateSelector.vue'
 import CalorieInput from '@/components/CalorieInput.vue'
 import FoodList from '@/components/FoodList.vue'
-import StorageService from '@/components/services/storageService'
-import type { DayData } from '@/components/types/CalorieData'
+import StorageService from '@/services/storageService'
+import type { DayData } from '@/types/CalorieData'
 import AddProductModal from '@/components/AddProductModal.vue'
-
+import CalculateCalories from '@/components/calculateCalories/CalculateCalories.vue'
 export default defineComponent({
   name: 'HomeView',
-  //need refactor
-  components: { DateSelector, CalorieInput, FoodList, AddProductModal },
+
+  components: { DateSelector, CalorieInput, FoodList, AddProductModal, CalculateCalories },
   setup() {
     const route = useRoute()
-    //const router = useRouter()
-
     const selectedDate = ref(
       (route.params.date as string) || new Date().toISOString().split('T')[0],
     )
-    const dailyCalories = ref(StorageService.getDailyCalories())
+    const dailyCalories = ref(StorageService.getDailyCalories() || 2000)
     const currentDay = ref<DayData>(StorageService.getDayData(selectedDate.value))
     const isEditingCalories = ref(false)
+    const isCalculatorVisible = ref(false)
     const isModalOpen = ref(false)
 
     // Monitor the date changes from the route
@@ -75,8 +75,7 @@ export default defineComponent({
       isEditingCalories.value = true
     }
 
-    // We maintain the daily norm when it changes
-    watch(dailyCalories, (newCalories) => {
+    watch(dailyCalories, (newCalories: number) => {
       if (!isEditingCalories.value) return
       if (newCalories && newCalories > 0) {
         StorageService.setDailyCalories(newCalories)
@@ -103,6 +102,9 @@ export default defineComponent({
     // Opening and closing a modal window
     const openModal = () => (isModalOpen.value = true)
     const closeModal = () => (isModalOpen.value = false)
+    const editCalculator = () => {
+      isCalculatorVisible.value = !false
+    }
 
     return {
       selectedDate,
@@ -116,6 +118,8 @@ export default defineComponent({
       addFoodItem,
       formattedDate,
       remainingCalories,
+      isCalculatorVisible,
+      editCalculator,
     }
   },
 })
@@ -194,7 +198,6 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-
 h1 {
   font-size: 1.5rem;
 }
@@ -214,7 +217,6 @@ h1 {
   transition:
     background-color 0.3s ease,
     transform 0.2s ease;
-  
 }
 
 .open-modal-button:hover {
@@ -243,6 +245,19 @@ h1 {
   .open-modal-button {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
+  }
+
+  .calories-output {
+    animation: fade-in 0.5s ease-in-out;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
 </style>

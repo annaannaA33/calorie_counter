@@ -1,4 +1,4 @@
-import type { AppState, DayData } from '@/components/types/CalorieData'
+import type { AppState, DayData } from '@/types/CalorieData'
 
 const STORAGE_KEY = 'calorie_tracker_app'
 

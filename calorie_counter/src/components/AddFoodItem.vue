@@ -45,7 +45,6 @@ export default defineComponent({
       }
     }
 
-    
     const selectSuggestion = (suggestion: string) => {
       foodName.value = suggestion
       showSuggestions.value = false
@@ -132,7 +131,7 @@ input::placeholder {
 }
 
 button {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -149,7 +148,7 @@ button:hover {
   position: absolute;
   background: white;
   border: 1px solid #ccc;
-  width: 100%;
+
   max-height: 150px;
   overflow-y: auto;
   border-radius: 4px;
@@ -168,6 +167,8 @@ button:hover {
 
 .add-food-item input,
 .add-food-item button {
-  transition: border-color 0.2s, background-color 0.2s;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
 }
 </style>
