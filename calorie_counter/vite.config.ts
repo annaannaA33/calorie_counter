@@ -12,4 +12,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom', // simulates a browser environment for components
+    include: ['src/components/**/*.spec.ts'], // define the paths to the tests
+    coverage: {
+      reporter: ['text', 'json', 'html'], // coverage reports
+    },
+  },
 })

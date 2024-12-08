@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import StorageService from '@/services/storageService';
-import CalculateCalories from '@/components/CalculateCalories/CalculateCalories.vue';
-import CalorieInput from '../CalorieInput.vue';
+import { defineComponent, ref } from 'vue'
+import StorageService from '@/services/storageService'
+import CalculateCalories from '@/components/CalculateCalories/CalculateCalories.vue'
+import CalorieInput from '../CalorieInput/CalorieInput.vue'
 
 export default defineComponent({
   name: 'DailyNormModal',
@@ -15,33 +15,33 @@ export default defineComponent({
   },
   emits: ['close', 'set-daily-norm'],
   setup(_, { emit }) {
-    const dailyCalories = ref(StorageService.getDailyCalories() || 2000);
-    const isEditingCalories = ref(false);
-    const isCalculatorVisible = ref(false);
+    const dailyCalories = ref(StorageService.getDailyCalories() || 2000)
+    const isEditingCalories = ref(false)
+    const isCalculatorVisible = ref(false)
 
     const closeDailyNormModal = () => {
-      emit('close');
-    };
+      emit('close')
+    }
 
     const saveDailyCalories = () => {
       if (dailyCalories.value > 0) {
-        StorageService.setDailyCalories(dailyCalories.value); // Сохраняем в локальное хранилище
-        emit('set-daily-norm', dailyCalories.value); // Уведомляем родителя
-        closeDailyNormModal();
+        StorageService.setDailyCalories(dailyCalories.value) // Сохраняем в локальное хранилище
+        emit('set-daily-norm', dailyCalories.value) // Уведомляем родителя
+        closeDailyNormModal()
       } else {
-        alert('Calorie limit must be greater than 0!');
+        alert('Calorie limit must be greater than 0!')
       }
-    };
+    }
 
     const editDailyCalories = () => {
-      isEditingCalories.value = true;
-      isCalculatorVisible.value = false;
-    };
+      isEditingCalories.value = true
+      isCalculatorVisible.value = false
+    }
 
     const editCalculator = () => {
-      isEditingCalories.value = false;
-      isCalculatorVisible.value = true;
-    };
+      isEditingCalories.value = false
+      isCalculatorVisible.value = true
+    }
 
     return {
       dailyCalories,
@@ -51,9 +51,9 @@ export default defineComponent({
       saveDailyCalories,
       editDailyCalories,
       editCalculator,
-    };
+    }
   },
-});
+})
 </script>
 
 <template>
@@ -77,7 +77,6 @@ export default defineComponent({
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .modal-overlay {
@@ -120,7 +119,8 @@ export default defineComponent({
 .close-modal-button:hover {
   background-color: #45a049;
   transform: scale(1.05);
-}.daily-calories,
+}
+.daily-calories,
 .remaining-calories {
   margin-bottom: 1.5rem;
   font-size: 1.2rem;
@@ -144,5 +144,4 @@ export default defineComponent({
 .daily-calories button:hover {
   background-color: #45a049;
 }
-
 </style>

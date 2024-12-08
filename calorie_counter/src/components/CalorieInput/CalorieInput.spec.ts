@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
-import CalorieInput from '@/components/CalorieInput.vue'
+import CalorieInput from '@/components/CalorieInput/CalorieInput.vue'
 
 describe('CalorieInput', () => {
   it('emits update:modelValue with correct value', async () => {

@@ -45,7 +45,7 @@ import DateSelector from '@/components/DateSelector.vue'
 import FoodList from '@/components/FoodList.vue'
 import StorageService from '@/services/storageService'
 import type { DayData } from '@/types/CalorieData'
-import AddProductModal from '@/components/AddProductModal.vue'
+import AddProductModal from '@/components/AddProductModal/AddProductModal.vue'
 import DailyNormModal from '@/components/ DailyNorm/DailyNormModal.vue'
 export default defineComponent({
   name: 'HomeView',

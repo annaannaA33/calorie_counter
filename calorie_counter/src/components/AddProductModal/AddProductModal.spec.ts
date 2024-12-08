@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
-import AddProductModal from '@/components/AddProductModal.vue'
+import AddProductModal from '@/components/AddProductModal/AddProductModal.vue'
 
 describe('AddProductModal', () => {
   it('renders when isOpen is true', () => {

@@ -11,7 +11,11 @@ import { defineConfig, devices } from '@playwright/test'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './e2e',
+  testDir: './tests/e2e',
+  use: {
+    baseURL: 'http://localhost:5173',
+    headless: true,
+  },
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
